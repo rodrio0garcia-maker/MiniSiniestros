@@ -1,0 +1,18 @@
+# Carpetas de build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Archivos de configuración local que no queremos versionar
+appsettings.Development.json
+
+# Resultados de tests
+TestResults/
+Reportes/coverage*
+
+# Otros
+*.log

@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="MiniSiniestros.Api/MiniSiniestros.Api.csproj" />
+  <Project Path="MiniSiniestros.Data/MiniSiniestros.Data.csproj" />
+  <Project Path="MiniSiniestros.Dto/MiniSiniestros.Dto.csproj" />
+  <Project Path="MiniSiniestros.Entities/MiniSiniestros.Entities.csproj" />
+  <Project Path="MiniSiniestros.Services/MiniSiniestros.Services.csproj" />
+  <Project Path="MiniSiniestros.Tests/MiniSiniestros.Tests.csproj" />
+  <Project Path="MiniSiniestros.ViewModels/MiniSiniestros.ViewModels.csproj" />
+  <Project Path="MiniSiniestros.Web/MiniSiniestros.Web.csproj" />
+</Solution>
