@@ -2,9 +2,20 @@ using Microsoft.EntityFrameworkCore;
 using MiniSiniestros.Data;
 using MiniSiniestros.Data.Repositories;
 using MiniSiniestros.Services;
+using MiniSiniestros.Services.Mapping;
+using Serilog;
+using Serilog.Formatting.Json;
 using System.Text.Json.Serialization;
 
+// Serilog ANTES de crear el builder, así captura también los logs que pasan durante el arranque de la app
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console(new JsonFormatter())
+    .CreateLogger();
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Serilog en vez del logger default
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<MiniSiniestrosDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -18,6 +29,8 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
