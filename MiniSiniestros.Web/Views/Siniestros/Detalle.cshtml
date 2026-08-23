@@ -1,0 +1,86 @@
+﻿@model MiniSiniestros.ViewModels.SiniestroDetalleViewModel
+
+@{
+    ViewData["Title"] = $"Siniestro #{Model.Id}";
+}
+
+<h1>Siniestro #@Model.Id</h1>
+
+<a asp-action="Index" class="btn btn-secondary btn-sm mb-3">&larr; Volver al listado</a>
+
+<div class="card mb-4">
+    <div class="card-header">Datos del siniestro</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">CUIT Empleador</dt>
+            <dd class="col-sm-9">@Model.CuitEmpleador</dd>
+
+            <dt class="col-sm-3">CUIL Trabajador</dt>
+            <dd class="col-sm-9">@Model.CuilTrabajador</dd>
+
+            <dt class="col-sm-3">Estado actual</dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-@(Model.Estado switch
+                      {
+                          MiniSiniestros.Entities.Enums.EstadoSiniestro.Recibido => "secondary",
+                          MiniSiniestros.Entities.Enums.EstadoSiniestro.EnAnalisis => "warning",
+                          MiniSiniestros.Entities.Enums.EstadoSiniestro.Aprobado => "success",
+                          MiniSiniestros.Entities.Enums.EstadoSiniestro.Rechazado => "danger",
+                          MiniSiniestros.Entities.Enums.EstadoSiniestro.Cerrado => "dark",
+                          _ => "light"
+                      })">
+                    @Model.Estado
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Fecha de ocurrencia</dt>
+            <dd class="col-sm-9">@Model.FechaOcurrencia.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Fecha de alta</dt>
+            <dd class="col-sm-9">@Model.FechaAlta.ToString("dd/MM/yyyy HH:mm")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Prestadores asignados</div>
+    <div class="card-body">
+        @if (!Model.Prestadores.Any())
+        {
+            <p class="text-muted">No hay prestadores asignados todavía.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var prestador in Model.Prestadores)
+                {
+                    <li class="list-group-item">
+                        <strong>@prestador.Nombre</strong> — @prestador.Especialidad
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Timeline de cambios de estado</div>
+    <div class="card-body">
+        @if (!Model.Historial.Any())
+        {
+            <p class="text-muted">Todavía no hubo cambios de estado.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var evento in Model.Historial)
+                {
+                    <li class="list-group-item">
+                        <strong>@evento.EstadoAnterior &rarr; @evento.EstadoNuevo</strong>
+                        <span class="text-muted"> — @evento.FechaCambio.ToString("dd/MM/yyyy HH:mm")</span>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

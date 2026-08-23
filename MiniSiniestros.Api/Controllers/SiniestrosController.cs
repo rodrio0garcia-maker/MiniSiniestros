@@ -35,14 +35,14 @@ public class SiniestrosController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> Listar(
-        [FromQuery] EstadoSiniestro? estado,
-        [FromQuery] DateTime? desde,
-        [FromQuery] DateTime? hasta,
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10)
+    [FromQuery] EstadoSiniestro? estado,
+    [FromQuery] DateTime? desde,
+    [FromQuery] DateTime? hasta,
+    [FromQuery] int page = 1,
+    [FromQuery] int pageSize = 10)
     {
-        var items = await _siniestroService.ListarAsync(estado, desde, hasta, page, pageSize);
-        var total = await _siniestroService.ContarAsync(estado, desde, hasta);
+        var items = await _siniestroService.ListarAsync(estado, desde, hasta, null, null, null, page, pageSize);
+        var total = await _siniestroService.ContarAsync(estado, desde, hasta, null, null);
 
         return Ok(new
         {

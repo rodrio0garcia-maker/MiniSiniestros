@@ -45,16 +45,24 @@ public class SiniestroService : ISiniestroService
         return siniestro is null ? null : _mapper.Map<SiniestroDto>(siniestro);
     }
 
-    public async Task<List<SiniestroDto>> ListarAsync(
-        EstadoSiniestro? estado, DateTime? desde, DateTime? hasta, int page, int pageSize)
+    public async Task<Siniestro?> ObtenerEntidadPorIdAsync(int id)
     {
-        var siniestros = await _unitOfWork.Siniestros.GetFiltradosAsync(estado, desde, hasta, page, pageSize);
-        return _mapper.Map<List<SiniestroDto>>(siniestros);
+        return await _unitOfWork.Siniestros.GetByIdAsync(id);
     }
 
-    public async Task<int> ContarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta)
+    public async Task<List<SiniestroDto>> ListarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize)
     {
-        return await _unitOfWork.Siniestros.ContarFiltradosAsync(estado, desde, hasta);
+        var siniestros = await _unitOfWork.Siniestros.GetFiltradosAsync(
+            estado, desde, hasta, cuitEmpleador, cuilTrabajador, ordenarPor, page, pageSize);
+        return _mapper.Map<List<SiniestroDto>>(siniestros);
+    }  
+
+    public async Task<int> ContarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador)
+    {
+        return await _unitOfWork.Siniestros.ContarFiltradosAsync(
+            estado, desde, hasta, cuitEmpleador, cuilTrabajador);
     }
 
     public async Task<bool> CambiarEstadoAsync(int id, EstadoSiniestro nuevoEstado)

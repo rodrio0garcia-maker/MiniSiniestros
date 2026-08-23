@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MiniSiniestros.Data\MiniSiniestros.Data.csproj" />
     <ProjectReference Include="..\MiniSiniestros.Services\MiniSiniestros.Services.csproj" />
     <ProjectReference Include="..\MiniSiniestros.ViewModels\MiniSiniestros.ViewModels.csproj" />
   </ItemGroup>

@@ -1,0 +1,125 @@
+﻿@model MiniSiniestros.ViewModels.SiniestroListaViewModel
+
+@{
+    ViewData["Title"] = "Siniestros";
+}
+
+<h1>Siniestros</h1>
+
+<!-- Tag Helper que genera el formulario de búsqueda -->
+<form method="get" asp-action="Index">
+    <div class="row g-2 mb-3">
+        <div class="col-auto">
+            <select name="estado" class="form-select">
+                <option value="">Todos los estados</option>
+                <!-- Arma dinamicamente las opciones del dropdown en vez de escribirlas manualmente -->
+                @foreach (var valor in Enum.GetValues<MiniSiniestros.Entities.Enums.EstadoSiniestro>())
+                {
+                    <option value="@valor" selected="@(Model.Estado == valor)">@valor</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <input type="date" name="desde" class="form-control" value="@Model.Desde?.ToString("yyyy-MM-dd")" placeholder="Desde" />
+        </div>
+        <div class="col-auto">
+            <input type="date" name="hasta" class="form-control" value="@Model.Hasta?.ToString("yyyy-MM-dd")" placeholder="Hasta" />
+        </div>
+        <div class="col-auto">
+            <input type="text" name="cuitEmpleador" class="form-control" value="@Model.CuitEmpleador" placeholder="CUIT empleador" />
+        </div>
+        <div class="col-auto">
+            <input type="text" name="cuilTrabajador" class="form-control" value="@Model.CuilTrabajador" placeholder="CUIL trabajador" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>CUIT Empleador</th>
+            <th>CUIL Trabajador</th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-estado="@Model.Estado"
+                   asp-route-desde="@Model.Desde"
+                   asp-route-hasta="@Model.Hasta"
+                   asp-route-cuitEmpleador="@Model.CuitEmpleador"
+                   asp-route-cuilTrabajador="@Model.CuilTrabajador"
+                   asp-route-ordenarPor="estado"
+                   class="text-decoration-none">
+                    Estado @(Model.OrdenarPor == "estado" ? "▲" : "")
+                </a>
+            </th>
+            <th>Fecha Ocurrencia</th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-estado="@Model.Estado"
+                   asp-route-desde="@Model.Desde"
+                   asp-route-hasta="@Model.Hasta"
+                   asp-route-cuitEmpleador="@Model.CuitEmpleador"
+                   asp-route-cuilTrabajador="@Model.CuilTrabajador"
+                   asp-route-ordenarPor=""
+                   class="text-decoration-none">
+                    Fecha Alta @(Model.OrdenarPor != "estado" ? "▲" : "")
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.CuitEmpleador</td>
+                <td>@item.CuilTrabajador</td>
+                <td>
+                    <!-- Badge que cambia de color según el estado del siniestro -->
+                    <span class="badge bg-@(item.Estado switch
+                    {
+                        MiniSiniestros.Entities.Enums.EstadoSiniestro.Recibido => "secondary",
+                        MiniSiniestros.Entities.Enums.EstadoSiniestro.EnAnalisis => "warning",
+                        MiniSiniestros.Entities.Enums.EstadoSiniestro.Aprobado => "success",
+                        MiniSiniestros.Entities.Enums.EstadoSiniestro.Rechazado => "danger",
+                        MiniSiniestros.Entities.Enums.EstadoSiniestro.Cerrado => "dark",
+                        _ => "light"
+                    })">
+                        @item.Estado
+                    </span>
+                </td>
+                <td>@item.FechaOcurrencia.ToString("dd/MM/yyyy")</td>
+                <td>@item.FechaAlta.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <!-- Tag Helper que genera un enlace al detalle del siniestro -->
+                    <a asp-action="Detalle" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Ver detalle</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <!-- Genera los enlaces de paginación, marcando como active la pagina actual y propaga todos los filtros actuales en cada link-->
+        @for (int p = 1; p <= Model.TotalPaginas; p++)
+        {
+            <li class="page-item @(p == Model.Page ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@p"
+                   asp-route-estado="@Model.Estado"
+                   asp-route-desde="@Model.Desde"
+                   asp-route-hasta="@Model.Hasta"
+                   asp-route-cuitEmpleador="@Model.CuitEmpleador"
+                   asp-route-cuilTrabajador="@Model.CuilTrabajador">
+                    @p
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

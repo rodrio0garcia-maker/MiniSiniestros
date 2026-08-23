@@ -44,8 +44,8 @@ public class SiniestroRepository : ISiniestroRepository
         _context.Siniestros.Update(siniestro);
     }
 
-    public async Task<List<Siniestro>> GetFiltradosAsync(
-        EstadoSiniestro? estado, DateTime? desde, DateTime? hasta, int page, int pageSize)
+    public async Task<List<Siniestro>> GetFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize)
     {
         // AsQueryable permite construir la query de manera dinámica, agregando filtros según los parámetros que se pasen.
         // La consulta final se ejecuta cuando se llama a ToListAsync(), que es cuando EF Core genera el SQL y lo ejecuta en la base de datos.
@@ -60,6 +60,17 @@ public class SiniestroRepository : ISiniestroRepository
         if (hasta.HasValue)
             query = query.Where(s => s.FechaOcurrencia <= hasta.Value);
 
+        if (!string.IsNullOrWhiteSpace(cuitEmpleador))
+            query = query.Where(s => s.CuitEmpleador.Contains(cuitEmpleador));
+
+        if (!string.IsNullOrWhiteSpace(cuilTrabajador))
+            query = query.Where(s => s.CuilTrabajador.Contains(cuilTrabajador));
+
+        // Por default ordena por FechaAlta descendente, si piden "estado" ordena por Estado en su lugar
+        query = ordenarPor == "estado"
+            ? query.OrderBy(s => s.Estado)
+            : query.OrderByDescending(s => s.FechaAlta);
+
         // Skip y Take permiten paginar los resultados. Skip salta los registros de las páginas anteriores, y Take toma solo la cantidad de registros de la página actual.
         return await query
             .OrderByDescending(s => s.FechaAlta)
@@ -68,7 +79,8 @@ public class SiniestroRepository : ISiniestroRepository
             .ToListAsync();
     }
 
-    public async Task<int> ContarFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta)
+    public async Task<int> ContarFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador)
     {
         // SIN Skip/Take - necesitamos el total real, no solo lo que entra en una página
         var query = _context.Siniestros.AsQueryable();
@@ -81,6 +93,12 @@ public class SiniestroRepository : ISiniestroRepository
 
         if (hasta.HasValue)
             query = query.Where(s => s.FechaOcurrencia <= hasta.Value);
+
+        if (!string.IsNullOrWhiteSpace(cuitEmpleador))
+            query = query.Where(s => s.CuitEmpleador.Contains(cuitEmpleador));
+
+        if (!string.IsNullOrWhiteSpace(cuilTrabajador))
+            query = query.Where(s => s.CuilTrabajador.Contains(cuilTrabajador));
 
         return await query.CountAsync();
     }

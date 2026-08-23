@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MiniSiniestros.Entities\MiniSiniestros.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

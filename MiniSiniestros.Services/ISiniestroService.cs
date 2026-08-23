@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MiniSiniestros.Dto;
+using MiniSiniestros.Entities;
+using MiniSiniestros.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MiniSiniestros.Dto;
-using MiniSiniestros.Entities.Enums;
 
 namespace MiniSiniestros.Services;
 
@@ -12,8 +13,12 @@ public interface ISiniestroService
 {
     Task<SiniestroDto> CrearAsync(SiniestroCreateDto dto);
     Task<SiniestroDto?> ObtenerPorIdAsync(int id);
-    Task<List<SiniestroDto>> ListarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta, int page, int pageSize);
-    Task<int> ContarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta);
+    Task<List<SiniestroDto>> ListarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize);
+
+    Task<int> ContarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+        string? cuitEmpleador, string? cuilTrabajador);
     Task<bool> CambiarEstadoAsync(int id, EstadoSiniestro nuevoEstado);
     Task<bool> AsignarPrestadorAsync(int siniestroId, int prestadorId);
+    Task<Siniestro?> ObtenerEntidadPorIdAsync(int id);
 }
