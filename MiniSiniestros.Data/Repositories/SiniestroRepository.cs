@@ -44,12 +44,15 @@ public class SiniestroRepository : ISiniestroRepository
         _context.Siniestros.Update(siniestro);
     }
 
-    public async Task<List<Siniestro>> GetFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    public async Task<List<Siniestro>> GetFiltradosAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize)
     {
         // AsQueryable permite construir la query de manera dinámica, agregando filtros según los parámetros que se pasen.
         // La consulta final se ejecuta cuando se llama a ToListAsync(), que es cuando EF Core genera el SQL y lo ejecuta en la base de datos.
         var query = _context.Siniestros.AsQueryable();
+
+        if (numeroSiniestro.HasValue)
+            query = query.Where(s => s.Id == numeroSiniestro.Value);
 
         if (estado.HasValue)
             query = query.Where(s => s.Estado == estado.Value);
@@ -79,11 +82,14 @@ public class SiniestroRepository : ISiniestroRepository
             .ToListAsync();
     }
 
-    public async Task<int> ContarFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    public async Task<int> ContarFiltradosAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador)
     {
         // SIN Skip/Take - necesitamos el total real, no solo lo que entra en una página
         var query = _context.Siniestros.AsQueryable();
+
+        if (numeroSiniestro.HasValue)
+            query = query.Where(s => s.Id == numeroSiniestro.Value);
 
         if (estado.HasValue)
             query = query.Where(s => s.Estado == estado.Value);

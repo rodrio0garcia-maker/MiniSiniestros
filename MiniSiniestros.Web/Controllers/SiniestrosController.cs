@@ -15,20 +15,21 @@ public class SiniestrosController : Controller
     }
 
     public async Task<IActionResult> Index(
-    EstadoSiniestro? estado,
-    DateTime? desde,
-    DateTime? hasta,
-    string? cuitEmpleador,
-    string? cuilTrabajador,
-    string? ordenarPor,
-    int page = 1)
+        int? numeroSiniestro,
+        EstadoSiniestro? estado,
+        DateTime? desde,
+        DateTime? hasta,
+        string? cuitEmpleador,
+        string? cuilTrabajador,
+        string? ordenarPor,
+        int page = 1)
     {
         const int pageSize = 10;
 
         var siniestrosDto = await _siniestroService.ListarAsync(
-            estado, desde, hasta, cuitEmpleador, cuilTrabajador, ordenarPor, page, pageSize);
+            numeroSiniestro, estado, desde, hasta, cuitEmpleador, cuilTrabajador, ordenarPor, page, pageSize);
         var total = await _siniestroService.ContarAsync(
-            estado, desde, hasta, cuitEmpleador, cuilTrabajador);
+            numeroSiniestro, estado, desde, hasta, cuitEmpleador, cuilTrabajador);
 
         var viewModel = new SiniestroListaViewModel
         {
@@ -44,6 +45,7 @@ public class SiniestrosController : Controller
             Total = total,
             Page = page,
             PageSize = pageSize,
+            NumeroSiniestro = numeroSiniestro,
             Estado = estado,
             Desde = desde,
             Hasta = hasta,

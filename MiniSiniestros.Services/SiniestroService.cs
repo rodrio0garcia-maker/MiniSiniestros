@@ -50,19 +50,19 @@ public class SiniestroService : ISiniestroService
         return await _unitOfWork.Siniestros.GetByIdAsync(id);
     }
 
-    public async Task<List<SiniestroDto>> ListarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    public async Task<List<SiniestroDto>> ListarAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize)
     {
         var siniestros = await _unitOfWork.Siniestros.GetFiltradosAsync(
-            estado, desde, hasta, cuitEmpleador, cuilTrabajador, ordenarPor, page, pageSize);
+            numeroSiniestro, estado, desde, hasta, cuitEmpleador, cuilTrabajador, ordenarPor, page, pageSize);
         return _mapper.Map<List<SiniestroDto>>(siniestros);
     }  
 
-    public async Task<int> ContarAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    public async Task<int> ContarAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador)
     {
         return await _unitOfWork.Siniestros.ContarFiltradosAsync(
-            estado, desde, hasta, cuitEmpleador, cuilTrabajador);
+            numeroSiniestro, estado, desde, hasta, cuitEmpleador, cuilTrabajador);
     }
 
     public async Task<bool> CambiarEstadoAsync(int id, EstadoSiniestro nuevoEstado)

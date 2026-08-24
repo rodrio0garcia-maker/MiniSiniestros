@@ -293,13 +293,14 @@ var assemblies = [
       { "name": "MiniSiniestros.Data.MiniSiniestrosDbContext", "rp": "MiniSiniestros.Data_MiniSiniestrosDbContext.html", "cl": 31, "ucl": 2, "cal": 33, "tl": 56, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Data.Repositories.HistorialEstadoRepository", "rp": "MiniSiniestros.Data_HistorialEstadoRepository.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Data.Repositories.PrestadorRepository", "rp": "MiniSiniestros.Data_PrestadorRepository.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 30, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "MiniSiniestros.Data.Repositories.SiniestroRepository", "rp": "MiniSiniestros.Data_SiniestroRepository.html", "cl": 32, "ucl": 22, "cal": 54, "tl": 105, "cb": 15, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "MiniSiniestros.Data.Repositories.SiniestroRepository", "rp": "MiniSiniestros.Data_SiniestroRepository.html", "cl": 35, "ucl": 23, "cal": 58, "tl": 111, "cb": 18, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Data.Repositories.UnitOfWork", "rp": "MiniSiniestros.Data_UnitOfWork.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "MiniSiniestros.Dto",
     "classes": [
       { "name": "MiniSiniestros.Dto.CambiarEstadoDto", "rp": "MiniSiniestros.Dto_CambiarEstadoDto.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "MiniSiniestros.Dto.LoginRequestDto", "rp": "MiniSiniestros.Dto_LoginRequestDto.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Dto.PrestadorDto", "rp": "MiniSiniestros.Dto_PrestadorDto.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Dto.SiniestroCreateDto", "rp": "MiniSiniestros.Dto_SiniestroCreateDto.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Dto.SiniestroDto", "rp": "MiniSiniestros.Dto_SiniestroDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -314,6 +315,7 @@ var assemblies = [
   {
     "name": "MiniSiniestros.Services",
     "classes": [
+      { "name": "MiniSiniestros.Services.AuthService", "rp": "MiniSiniestros.Services_AuthService.html", "cl": 0, "ucl": 22, "cal": 22, "tl": 47, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Services.Mapping.MappingProfile", "rp": "MiniSiniestros.Services_MappingProfile.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Services.SiniestroService", "rp": "MiniSiniestros.Services_SiniestroService.html", "cl": 49, "ucl": 17, "cal": 66, "tl": 119, "cb": 7, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "MiniSiniestros.Services.Validaciones.TransicionEstadoValidator", "rp": "MiniSiniestros.Services_TransicionEstadoValidator.html", "cl": 12, "ucl": 0, "cal": 12, "tl": 27, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },

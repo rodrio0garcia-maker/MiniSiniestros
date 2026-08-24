@@ -26,6 +26,9 @@
             <input type="date" name="hasta" class="form-control" value="@Model.Hasta?.ToString("yyyy-MM-dd")" placeholder="Hasta" />
         </div>
         <div class="col-auto">
+            <input type="number" name="numeroSiniestro" class="form-control" value="@Model.NumeroSiniestro" placeholder="N° Siniestro" />
+        </div>
+        <div class="col-auto">
             <input type="text" name="cuitEmpleador" class="form-control" value="@Model.CuitEmpleador" placeholder="CUIT empleador" />
         </div>
         <div class="col-auto">
@@ -45,6 +48,7 @@
             <th>CUIL Trabajador</th>
             <th>
                 <a asp-action="Index"
+                   asp-route-numeroSiniestro="@Model.NumeroSiniestro"
                    asp-route-estado="@Model.Estado"
                    asp-route-desde="@Model.Desde"
                    asp-route-hasta="@Model.Hasta"
@@ -58,6 +62,7 @@
             <th>Fecha Ocurrencia</th>
             <th>
                 <a asp-action="Index"
+                   asp-route-numeroSiniestro="@Model.NumeroSiniestro"
                    asp-route-estado="@Model.Estado"
                    asp-route-desde="@Model.Desde"
                    asp-route-hasta="@Model.Hasta"
@@ -112,6 +117,7 @@
                 <a class="page-link"
                    asp-action="Index"
                    asp-route-page="@p"
+                   asp-route-numeroSiniestro="@Model.NumeroSiniestro"
                    asp-route-estado="@Model.Estado"
                    asp-route-desde="@Model.Desde"
                    asp-route-hasta="@Model.Hasta"

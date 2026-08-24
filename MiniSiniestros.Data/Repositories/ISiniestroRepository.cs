@@ -14,8 +14,8 @@ public interface ISiniestroRepository
     Task<List<Siniestro>> GetAllAsync();
     Task AddAsync(Siniestro siniestro);
     void Update(Siniestro siniestro);
-    Task<List<Siniestro>> GetFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    Task<List<Siniestro>> GetFiltradosAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador, string? ordenarPor, int page, int pageSize);
-    Task<int> ContarFiltradosAsync(EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
+    Task<int> ContarFiltradosAsync(int? numeroSiniestro, EstadoSiniestro? estado, DateTime? desde, DateTime? hasta,
         string? cuitEmpleador, string? cuilTrabajador);
 }

@@ -1,0 +1,57 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "MiniSiniestros2026!"
+      MSSQL_PID: "Express"
+    ports:
+      - "1434:1433"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - minisiniestros-net
+
+  api:
+    build:
+      context: .
+      dockerfile: MiniSiniestros.Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MiniSiniestrosDb;User Id=sa;Password=MiniSiniestros2026!;TrustServerCertificate=True;"
+      Jwt__Key: "clave-super-secreta-de-al-menos-32-caracteres-para-firmar"
+      Jwt__Issuer: "MiniSiniestrosApi"
+      Jwt__Audience: "MiniSiniestrosApi.Clients"
+      Jwt__ExpiryMinutes: "120"
+    ports:
+      - "8080:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - minisiniestros-net
+
+  web:
+    build:
+      context: .
+      dockerfile: MiniSiniestros.Web/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MiniSiniestrosDb;User Id=sa;Password=MiniSiniestros2026!;TrustServerCertificate=True;"
+    ports:
+      - "8081:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - minisiniestros-net
+
+networks:
+  minisiniestros-net:
+    driver: bridge

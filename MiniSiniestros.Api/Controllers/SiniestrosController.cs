@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MiniSiniestros.Dto;
 using MiniSiniestros.Entities.Enums;
 using MiniSiniestros.Services;
@@ -7,6 +8,7 @@ namespace MiniSiniestros.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class SiniestrosController : ControllerBase
 {
     private readonly ISiniestroService _siniestroService;
@@ -17,6 +19,7 @@ public class SiniestrosController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Operador")]
     public async Task<IActionResult> Crear([FromBody] SiniestroCreateDto dto)
     {
         var creado = await _siniestroService.CrearAsync(dto);
@@ -41,8 +44,8 @@ public class SiniestrosController : ControllerBase
     [FromQuery] int page = 1,
     [FromQuery] int pageSize = 10)
     {
-        var items = await _siniestroService.ListarAsync(estado, desde, hasta, null, null, null, page, pageSize);
-        var total = await _siniestroService.ContarAsync(estado, desde, hasta, null, null);
+        var items = await _siniestroService.ListarAsync(null, estado, desde, hasta, null, null, null, page, pageSize);
+        var total = await _siniestroService.ContarAsync(null, estado, desde, hasta, null, null);
 
         return Ok(new
         {
@@ -54,6 +57,7 @@ public class SiniestrosController : ControllerBase
     }
 
     [HttpPatch("{id}/estado")]
+    [Authorize(Roles = "Operador")]
     public async Task<IActionResult> CambiarEstado(int id, [FromBody] CambiarEstadoDto dto)
     {
         var resultado = await _siniestroService.CambiarEstadoAsync(id, dto.NuevoEstado);

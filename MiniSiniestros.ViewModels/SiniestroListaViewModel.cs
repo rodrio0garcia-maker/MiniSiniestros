@@ -21,4 +21,5 @@ public class SiniestroListaViewModel
     public string? CuitEmpleador { get; set; }
     public string? CuilTrabajador { get; set; }
     public string? OrdenarPor { get; set; }
+    public int? NumeroSiniestro { get; set; }
 }

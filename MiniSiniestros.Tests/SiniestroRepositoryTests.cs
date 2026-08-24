@@ -44,7 +44,7 @@ public class SiniestroRepositoryTests
 
         // Act
         var resultado = await repo.GetFiltradosAsync(
-            estado: EstadoSiniestro.Recibido, desde: null, hasta: null,
+            numeroSiniestro: null, estado: EstadoSiniestro.Recibido, desde: null, hasta: null,
             cuitEmpleador: null, cuilTrabajador: null,
             ordenarPor: null, page: 1, pageSize: 10);
 
@@ -61,7 +61,7 @@ public class SiniestroRepositoryTests
 
         // Dos de los tres siniestros de prueba comparten el mismo CUIT
         var resultado = await repo.GetFiltradosAsync(
-            estado: null, desde: null, hasta: null,
+            numeroSiniestro: null, estado: null, desde: null, hasta: null,
             cuitEmpleador: "20111111111", cuilTrabajador: null,
             ordenarPor: null, page: 1, pageSize: 10);
 
@@ -76,7 +76,7 @@ public class SiniestroRepositoryTests
 
         // Pedimos página 1 con tamaño 2, de un total de 3 registros
         var resultado = await repo.GetFiltradosAsync(
-            estado: null, desde: null, hasta: null,
+            numeroSiniestro: null, estado: null, desde: null, hasta: null,
             cuitEmpleador: null, cuilTrabajador: null,
             ordenarPor: null, page: 1, pageSize: 2);
 
@@ -90,7 +90,7 @@ public class SiniestroRepositoryTests
         var repo = new SiniestroRepository(context);
 
         var resultado = await repo.GetFiltradosAsync(
-            estado: null, desde: null, hasta: null,
+            numeroSiniestro: null, estado: null, desde: null, hasta: null,
             cuitEmpleador: null, cuilTrabajador: null,
             ordenarPor: "estado", page: 1, pageSize: 10);
 
@@ -106,9 +106,25 @@ public class SiniestroRepositoryTests
         var repo = new SiniestroRepository(context);
 
         var total = await repo.ContarFiltradosAsync(
-            estado: EstadoSiniestro.Cerrado, desde: null, hasta: null,
+            numeroSiniestro: null, estado: EstadoSiniestro.Cerrado, desde: null, hasta: null,
             cuitEmpleador: null, cuilTrabajador: null);
 
         Assert.Equal(1, total);
+    }
+
+    [Fact]
+    public async Task GetFiltradosAsync_FiltraPorNumeroSiniestro_DevuelveSoloEse()
+    {
+        using var context = CrearContextoConDatos();
+        var repo = new SiniestroRepository(context);
+
+        // El primer siniestro insertado en CrearContextoConDatos tiene Id = 1
+        var resultado = await repo.GetFiltradosAsync(
+            numeroSiniestro: 1, estado: null, desde: null, hasta: null,
+            cuitEmpleador: null, cuilTrabajador: null,
+            ordenarPor: null, page: 1, pageSize: 10);
+
+        Assert.Single(resultado);
+        Assert.Equal(1, resultado[0].Id);
     }
 }
